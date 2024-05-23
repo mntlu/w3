@@ -1,0 +1,18 @@
+version: '3.9'
+
+name: w3_tst_proj
+
+services:
+  api-server:
+    image: node:20
+    restart: unless-stopped
+    stdin_open: true
+    # override default entrypoint allows us to do `bun install` before serving
+    entrypoint: []
+    # execute bun install before we start the dev server in watch mode
+    # command: "/bin/sh -c 'bun install && bun run --watch src/index.ts'"
+    command: "/bin/sh -c 'tail'"
+    # expose the right ports
+    ports: ["8545:8545"]
+    # setup a host mounted volume to sync changes to the container
+    volumes: ["./:/ws_dir"]
